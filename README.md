@@ -1,12 +1,22 @@
-# React + Vite
+# GameVerse - React Version
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern gaming platform website built with React, GSAP, Vite, and Tailwind CSS.
 
-Currently, two official plugins are available:
+## 🎮 About
+An interactive gaming website featuring smooth animations and modern UI design. This project demonstrates advanced React development with professional-grade animations and responsive design.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
+- Smooth GSAP scroll-triggered animations
+- Responsive design across all devices
+- Modern gaming-inspired UI/UX
+- Interactive components and transitions
+- Optimized performance with Vite
 
-## Expanding the ESLint configuration
+## 🛠️ Built With
+- **React** - Component-based UI library
+- **Vite** - Fast build tool and dev server
+- **GSAP** - Professional animation library
+- **Tailwind CSS** - Utility-first CSS framework
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📝 Credits
+Tutorial project inspired by JavaScript Mastery's Zentry clone tutorial.
