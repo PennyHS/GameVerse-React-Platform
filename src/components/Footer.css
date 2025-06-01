@@ -1,0 +1,79 @@
+.footer {
+    width: 100%;
+    background-color: transparent;
+    color: #9ca3af;
+    padding: 0.5rem 1rem 0.5rem;
+    border-top: 1px solid #1f2937;
+  }
+  
+  .footer-container {
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  .footer-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .footer p {
+    font-size: 0.875rem;
+    margin: 0;  
+  }
+  
+  .footer ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+    gap: 1.5rem;
+  }
+  
+  .footer ul li a {
+    color: #9ca3af;
+    font-size: 2rem;
+    transition: color 0.3s ease;
+  }
+  
+  .footer ul li a:hover {
+    color: #60a5fa;
+  }
+  
+  .footer ul li a[href*="linkedin"]:hover {
+    color: #0077b5;
+  }
+  
+  .footer ul li a[href*="github"]:hover {
+    color: #a78bfa;
+  }
+  
+  .footer ul li a[href*="pennyhsiao"]:hover {
+    color: #2dd4bf;
+  }
+  
+  .footer .policy-text {
+    font-size: 0.875rem;
+  }
+  
+  .footer .policy-text a {
+    color: #9ca3af;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .footer .policy-text a:hover {
+    color: #f9fafb;
+  }
+  
+  /* Media query for larger screens */
+  @media (min-width: 768px) {
+    .footer-content {
+      flex-direction: row;
+    }
+    
+    .footer ul {
+      margin: 0;
+    }
+  }
