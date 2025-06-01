@@ -1,6 +1,6 @@
-# Gaming Website Tutorial
+# GameVerse - React Version
 
-A modern gaming platform website built with React, GSAP, and Tailwind CSS.
+A modern gaming platform website built with React, GSAP, Vite, and Tailwind CSS.
 
 ## 🎮 About
 Tutorial project inspired by JavaScript Mastery's Zentry clone tutorial.
