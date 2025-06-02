@@ -14,6 +14,7 @@ const Hero = () => {
   const [isLoading, setIsLoading] = useState(true);  //video have to take some time to loading at start 
   const [loadedVideos, setLoadedVideos] = useState(0);
   const [videoCanPlay, setVideoCanPlay] = useState(false);
+  const [showTapHint, setShowTapHint] = useState(true); // Show tap hint initially
   const totalVideos = 4;
   const nextVideoRef = useRef(null);  //Define a reference which will allow us to switch between videos
   const currentVideoRef = useRef(null); // Add separate ref for current video
@@ -50,8 +51,18 @@ const Hero = () => {
   //see click behavior
   const handleMiniVdclick = () => {
     setHasClicked(true);
+    setShowTapHint(false); // Hide hint after first tap
     setCurrentIndex((prevIndex) => (prevIndex % totalVideos) + 1);
   };
+
+  // Auto-hide tap hint after 5 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowTapHint(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Attempt to play video with proper error handling
   const attemptVideoPlay = async (videoElement) => {
@@ -155,6 +166,19 @@ const Hero = () => {
                 onLoadedData={handleVideoLoad}
                 onError={() => console.log('Mini video load error - this is normal')}
               />
+              
+              {/* Tap indicator overlay - only show when hint is active */}
+              {showTapHint && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 rounded-lg">
+                  <div className="text-center text-white animate-bounce">
+                    <div className="w-8 h-8 mx-auto mb-2 flex items-center justify-center bg-yellow-300 text-black rounded-full animate-pulse">
+                      <TiLocationArrow className="w-4 h-4" />
+                    </div>
+                    <p className="text-xs font-medium">TAP</p>
+                    <p className="text-xs opacity-75">Next Video</p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           {/* LargerVideoPlayer */}
