@@ -22,7 +22,7 @@ const Footer = () => {
             </li>
             <li>
               <a href="https://www.pennyhsiao.com/">
-              <i class='bx bx-link'></i>
+              <i className='bx bx-link'></i>
               </a>
               </li>
           </ul>
