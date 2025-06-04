@@ -14,7 +14,8 @@ const Hero = () => {
   const [isLoading, setIsLoading] = useState(true);  //video have to take some time to loading at start 
   const [loadedVideos, setLoadedVideos] = useState(0);
   const [videoCanPlay, setVideoCanPlay] = useState(false);
-  const [showTapHint, setShowTapHint] = useState(true); // Show tap hint initially
+  const [showTapHint, setShowTapHint] = useState(false); // Don't show initially, wait for scroll or timer
+  const [isMobile, setIsMobile] = useState(false); // Detect mobile device
   const totalVideos = 4;
   const nextVideoRef = useRef(null);  //Define a reference which will allow us to switch between videos
   const currentVideoRef = useRef(null); // Add separate ref for current video
@@ -48,6 +49,22 @@ const Hero = () => {
     return () => clearTimeout(timeout);
   }, [loadedVideos, videoCanPlay]);
 
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      const userAgent = navigator.userAgent.toLowerCase();
+      const mobileKeywords = ['android', 'iphone', 'ipad', 'mobile', 'tablet'];
+      const isMobileDevice = mobileKeywords.some(keyword => userAgent.includes(keyword)) || 
+                           window.innerWidth <= 768 ||
+                           'ontouchstart' in window;
+      setIsMobile(isMobileDevice);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   //see click behavior
   const handleMiniVdclick = () => {
     setHasClicked(true);
@@ -55,14 +72,43 @@ const Hero = () => {
     setCurrentIndex((prevIndex) => (prevIndex % totalVideos) + 1);
   };
 
-  // Auto-hide tap hint after 5 seconds
+  // Auto-hide tap hint after 5 seconds, but only show on mobile when scrolling
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowTapHint(false);
-    }, 5000);
+    if (!isMobile) {
+      setShowTapHint(false); // Don't show hint on desktop
+      return;
+    }
 
-    return () => clearTimeout(timer);
-  }, []);
+    const handleScroll = () => {
+      // Show hint when user scrolls down 100px or more
+      if (window.scrollY > 100 && !hasClicked) {
+        setShowTapHint(true);
+      }
+    };
+
+    // Also show after 3 seconds if user hasn't scrolled
+    const initialTimer = setTimeout(() => {
+      if (!hasClicked) {
+        setShowTapHint(true);
+      }
+    }, 3000);
+
+    // Hide hint after 5 seconds of being shown
+    let hideTimer;
+    if (showTapHint) {
+      hideTimer = setTimeout(() => {
+        setShowTapHint(false);
+      }, 5000);
+    }
+
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      clearTimeout(initialTimer);
+      clearTimeout(hideTimer);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isMobile, hasClicked, showTapHint]);
 
   // Attempt to play video with proper error handling
   const attemptVideoPlay = async (videoElement) => {
@@ -109,27 +155,20 @@ const Hero = () => {
   );
 
   useGSAP(() => {
-    // Start with full-screen rectangle
-    gsap.set("#video-frame", { 
-      clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-      webkitClipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-      borderRadius: "0 0 0 0",
-      width: "100vw",
-      height: "100vh",
+    gsap.set("#video-frame", {
+      clipPath: "polygon(12% 0, 75% 0, 97% 91%, 2% 92%)",
+      borderRadius: "0% 0% 30% 30%",
     });
-    // Create the scroll-triggered animation to morph into custom shape
-    gsap.to("#video-frame", {
-      clipPath: "polygon(0% 15%, 15% 15%, 15% 0%, 85% 0%, 85% 15%, 100% 15%, 100% 85%, 90% 93%, 79% 95%, 15% 100%, 15% 85%, 0% 85%)", // Fixed typo: removed extra 'p'
-      webkitClipPath: "polygon(5% 0%, 95% 0%, 100% 85%, 0% 100%)",
-      borderRadius: "10px 10px 40% 10%",
+    gsap.from("#video-frame", {
+      clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+      borderRadius: "0% 0% 0% 0%",
       ease: "power1.inOut",
       scrollTrigger: {
-        trigger: "#hero-section", // Use the hero section as trigger
-        start: "top top", // Start when the top of hero section hits top of viewport
-        end: "20% top", // End when 20% of hero section passes the top
-        scrub: 1, // Smooth scrubbing effect (1 second)
-        markers: false, // Set to true for debugging
-      }
+        trigger: "#video-frame",
+        start: "center center",
+        end: "bottom center",
+        scrub: true,
+      },
     });
   });
 
@@ -167,8 +206,8 @@ const Hero = () => {
                 onError={() => console.log('Mini video load error - this is normal')}
               />
               
-              {/* Tap indicator overlay - only show when hint is active */}
-              {showTapHint && (
+              {/* Tap indicator overlay - only show on mobile when hint is active */}
+              {showTapHint && isMobile && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 rounded-lg">
                   <div className="text-center text-white animate-bounce">
                     <div className="w-8 h-8 mx-auto mb-2 flex items-center justify-center bg-yellow-300 text-black rounded-full animate-pulse">
