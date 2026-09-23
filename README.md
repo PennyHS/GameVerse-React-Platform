@@ -2,9 +2,9 @@
 
 A gaming landing page built with React, Vite, GSAP, and Tailwind CSS, featuring scroll-triggered animations and a responsive layout.
 
-**This version:** [Live demo](your-live-site-link)
+**This version:** [Live demo](https://game-verse-react-platform.vercel.app/)
 
-> **HTML/CSS/JS version:** [Live demo](https://game-verse-react-platform.vercel.app/) · [Source code](https://github.com/PennyHS/GameVerse-HTML-CSS/)
+> **HTML/CSS/JS version:** [Live demo](https://game-verse-html-css.vercel.app/) · [Source code](https://github.com/PennyHS/GameVerse-HTML-CSS/)
 
 ## About
 
